@@ -19,7 +19,7 @@ function Home() {
       )}
       <div className="homeBtns">
         <button onClick={() => navigate("/listofproducts")}>
-          List of Products
+          ListofProducts
         </button>
         <button onClick={() => navigate("addproduct")}>Add Product</button>
       </div>
