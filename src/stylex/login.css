@@ -1,0 +1,12 @@
+.loginPage{
+    width:25%;
+    margin:auto;
+}
+.loginPage input{
+    width: 99%;
+    margin: auto;
+}
+.loginPage button{
+    margin: auto;
+    display: block;
+}

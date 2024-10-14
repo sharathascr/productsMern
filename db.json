@@ -1,0 +1,27 @@
+{
+  "products": [
+    {
+      "id": "2e88c0d5-3047-4490-9151-31c27e6a6b09",
+      "name": "xsx",
+      "description": "dcsxz",
+      "price": "123",
+      "quantity": "3"
+    }
+  ],
+  "users": [
+    {
+      "id": "fc53",
+      "username": "sharath",
+      "email": "sharath10k@gmail.com",
+      "password": "sdcfdcxxsx",
+      "products": []
+    },
+    {
+      "id": "8878",
+      "username": "harshitha",
+      "email": "harshitha@gmail.com",
+      "password": "sdcfdcxxsx",
+      "products": []
+    }
+  ]
+}
