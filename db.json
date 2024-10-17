@@ -1,28 +1,12 @@
 {
-  "products": [
-    {
-      "id": "2e88c0d5-3047-4490-9151-31c27e6a6b09",
-      "name": "xsx",
-      "description": "dcsxz",
-      "price": "123",
-      "quantity": "3"
-    }
-  ],
+  "products": [],
   "users": [
     {
-      "id": "fc53",
-      "username": "sharath",
-      "products": []
-    },
-    {
-      "id": "8878",
-      "username": "harshitha",
-      "products": []
-    },
-    {
-      "id": "23f3",
-      "username": "sharath11",
-      "email": "sharath160k@gmail.com"
+      "id": "c280",
+      "username": "sandy",
+      "email": "sandy@gmail.com",
+      "password": "1234567890",
+      "products": [{}]
     }
   ]
 }

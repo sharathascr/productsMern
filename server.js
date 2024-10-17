@@ -1,17 +1,30 @@
-const exp=require('express')
-const app=exp();
-const userApi=require('./backend/API/userApi')
+const express = require("express");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const userRoutes = require("./backend/routes/users");
+const cors = require("cors");
 
-const mongoose =require('mongoose')
-require('dotenv').config()
+//Load environment variables
+dotenv.config();
 
-mongoose.connect("mongodb+srv://cdb27:cdb27@atlascluster.e4ptmwb.mongodb.net/productInfo?retryWrites=true&w=majority");
+//Initialize express app
+const app = express();
 
-const db=mongoose.connection;
+//Middleware for JSON parsing
+app.use(express.json());
+app.use(cors);
 
-db.on("open", ()=>console.log('DB connection success...'));
-db.on('error', (err)=>console.log('error in db connection', err));
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => console.log("MongoDB is connected"))
+  .catch((error) => console.log("MongoDB connection error", error));
 
-app.use("/users",userApi)
+app.use("/api/users", userRoutes);
 
-app.listen(5000, ()=>console.log('server is running on 5000...'))
+app.get("/sample", (req, res) => {
+  console.log("sample");
+  res.json({ Message: "Request sent successfully" });
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server is running on ${PORT}`));

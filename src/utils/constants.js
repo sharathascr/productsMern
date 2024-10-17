@@ -1,1 +1,0 @@
-export const USERS_URL='http://localhost:4000/users';
