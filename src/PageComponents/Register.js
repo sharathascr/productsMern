@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { Toaster, toast } from "react-hot-toast";
 
 function Register() {
   const {
@@ -19,19 +20,46 @@ function Register() {
   } = useForm();
   const formSubmit = async (user) => {
     try {
-      const result = await fetch(" http://localhost:5000/sample")
-        .then((res) => res.json())
-        .then((result) => console.log(result));
-      console.log(result);
-    } catch (error) {
-      console.error("Error during form Submission", error.message);
-      if (error.response) {
-        console.error("Server responded with: ", error.response.data);
-      } else if (error.request) {
-        console.error("No response received from server: ", error.request);
-      } else {
-        console.error("Error in setting up request: ", error.message);
+      const result = await axios.post(
+        "http://localhost:5000/api/users/register",
+        user
+      );
+
+      if (result.status == 201) {
+        toast.success("user created successfully", {
+          duration: 2000,
+          position: "top-right",
+          style: {
+            background: "#4caf50",
+            color: "#fff",
+            fontWeight: "bold",
+            borderRadius: "8px",
+            margin: "70px 50px 0 0 ",
+            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+          },
+        });
       }
+    } catch (error) {
+      toast.error("user already existed", {
+        duration: 2000,
+        position: "top-right",
+        style: {
+          background: "orange",
+          color: "#fff",
+          fontWeight: "bold",
+          borderRadius: "8px",
+          margin: "70px 50px 0 0 ",
+          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+        },
+      });
+      // console.error("Error during form Submission", error.message);
+      // if (error.response) {
+      //   console.error("Server responded with: ", error.response.data);
+      // } else if (error.request) {
+      //   console.error("No response received from server: ", error.request);
+      // } else {
+      //   console.error("Error in setting up request: ", error.message);
+      // }
     }
     reset();
   };
@@ -102,6 +130,7 @@ function Register() {
           </Grid>
         </form>
       </Box>
+      <Toaster />
     </Container>
   );
 }

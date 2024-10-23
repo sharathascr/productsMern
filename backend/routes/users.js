@@ -1,17 +1,24 @@
 const express = require("express");
 const User = require("../models/User");
+const bcrypt = require("bcrypt");
 
 const router = express.Router();
 
 //Create a new user
 
 router.post("/register", async (req, res) => {
-  console.log("hello");
-  const { name, email, password } = req.body;
+  let { name, email, password } = req.body;
   try {
-    const newUser = new User({ name, email, password });
-    await newUser.save();
-    res.status(201).json(newUser);
+    const hashPassword = await bcrypt.hash(password, 10);
+    password = hashPassword;
+    const checkUser = await User.findOne({ email });
+    if (checkUser) {
+      res.status(409).json({ message: "user already existed" });
+    } else {
+      const newUser = new User({ name, email, password });
+      await newUser.save();
+    }
+    res.status(201).json(checkUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -19,6 +26,7 @@ router.post("/register", async (req, res) => {
 
 //Get all Users
 router.get("/", async (req, res) => {
+  console.log("Get all users");
   try {
     const users = await User.find();
     res.status(200).json(users);
