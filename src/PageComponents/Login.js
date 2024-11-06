@@ -7,10 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Toaster, toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../contextAPI/AppContextProvider";
 
 function Login() {
+  const navigate = useNavigate();
+  const { isLogin, setLogin } = useContext(AppContext);
+  console.log(isLogin, setLogin);
   const {
     register,
     handleSubmit,
@@ -18,7 +24,46 @@ function Login() {
     formState: { errors },
   } = useForm();
   const formSubmit = async (user) => {
-    const result = await axios.post("");
+    try {
+      const result = await axios.post(
+        "http://localhost:5000/api/users/login",
+        user
+      );
+      if (result.status == 200) {
+        sessionStorage.setItem("loggedInUser", result.data.user);
+        sessionStorage.setItem("isLoggedIn", true);
+        setLogin(sessionStorage.getItem("isLoggedIn"));
+        navigate("/");
+        toast.success("Login successful", {
+          duration: 2000,
+          position: "top-right",
+          style: {
+            background: "#4caf50",
+            color: "#fff",
+            fontWeight: "bold",
+            borderRadius: "8px",
+            margin: "70px 50px 0 0 ",
+            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error.response);
+      // if (error.message.includes(404)) {
+      //   toast.error("user not exists", {
+      //     duration: 2000,
+      //     position: "top-right",
+      //     style: {
+      //       background: "#4caf50",
+      //       color: "#fff",
+      //       fontWeight: "bold",
+      //       borderRadius: "8px",
+      //       margin: "70px 50px 0 0 ",
+      //       boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+      //     },
+      //   });
+      // }
+    }
     reset();
   };
   return (
@@ -50,6 +95,8 @@ function Login() {
                 label="Password"
                 fullWidth
                 variant="outlined"
+                name="password"
+                type="password"
                 {...register("password", {
                   required: "Passwprd is required",
                   minLength: {
@@ -67,6 +114,7 @@ function Login() {
           </Grid>
         </form>
       </Box>
+      <Toaster />
     </Container>
   );
 }

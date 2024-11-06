@@ -17,8 +17,8 @@ router.post("/register", async (req, res) => {
     } else {
       const newUser = new User({ name, email, password });
       await newUser.save();
+      res.status(201).json(checkUser);
     }
-    res.status(201).json(checkUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -133,6 +133,29 @@ router.put("/:userId/products/:productId", async (req, res) => {
     res.status(200).json({ message: "product updated successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+});
+
+//login user
+
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const checkUser = await User.findOne({ email });
+    if (!checkUser) {
+      console.log("check user");
+      return res.send("user not exists");
+    }
+    const isMatch = await bcrypt.compare(password, checkUser.password);
+    if (!isMatch) {
+      console.log("password mismatch");
+      return res.status(401).json({ error: "Invalid Credentials" });
+    }
+    return res
+      .status(200)
+      .json({ message: "Login Successful", user: checkUser.name });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
   }
 });
 

@@ -1,9 +1,11 @@
-import { Box, Button, Container } from "@mui/material";
-import React from "react";
+import { Box, Button, Container, Typography } from "@mui/material";
+import React, { useContext } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../contextAPI/AppContextProvider";
 
 function Home() {
+  const { loggedInUser, setLoggedInUser } = useContext(AppContext);
   const navigate = useNavigate();
   const test = () => {
     toast.success("Hello world", {
@@ -21,6 +23,11 @@ function Home() {
   };
   return (
     <Container maxWidth="sm">
+      {sessionStorage.length != 0 && (
+        <Typography align="right">
+          Hello {sessionStorage.getItem("loggedInUser")}{" "}
+        </Typography>
+      )}
       <Box sx={{ mt: 8, display: "flex", justifyContent: "space-evenly" }}>
         <Button
           variant="contained"

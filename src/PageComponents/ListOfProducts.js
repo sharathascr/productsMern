@@ -2,6 +2,7 @@ import {
   Card,
   Paper,
   Table,
+  TableBody,
   TableCell,
   TableContainer,
   TableHead,
@@ -48,8 +49,11 @@ function ListOfProducts() {
     },
   ];
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: "650" }} aria-label="simple table">
+    <TableContainer>
+      <Table
+        sx={{ minWidth: "650", width: "50%", margin: "auto" }}
+        aria-label="simple table"
+      >
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
@@ -59,6 +63,17 @@ function ListOfProducts() {
             <TableCell>totalPrice</TableCell>
           </TableRow>
         </TableHead>
+        <TableBody>
+          {products.map((product) => (
+            <TableRow>
+              <TableCell>{product.name}</TableCell>
+              <TableCell>{product.description}</TableCell>
+              <TableCell>{product.price}</TableCell>
+              <TableCell>{product.quantity}</TableCell>
+              <TableCell>{product.totalPrice}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
       </Table>
     </TableContainer>
   );

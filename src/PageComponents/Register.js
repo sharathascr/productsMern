@@ -40,26 +40,20 @@ function Register() {
         });
       }
     } catch (error) {
-      toast.error("user already existed", {
-        duration: 2000,
-        position: "top-right",
-        style: {
-          background: "orange",
-          color: "#fff",
-          fontWeight: "bold",
-          borderRadius: "8px",
-          margin: "70px 50px 0 0 ",
-          boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
-        },
-      });
-      // console.error("Error during form Submission", error.message);
-      // if (error.response) {
-      //   console.error("Server responded with: ", error.response.data);
-      // } else if (error.request) {
-      //   console.error("No response received from server: ", error.request);
-      // } else {
-      //   console.error("Error in setting up request: ", error.message);
-      // }
+      if (error.message.includes(409)) {
+        toast.error("user already existed", {
+          duration: 2000,
+          position: "top-right",
+          style: {
+            background: "orange",
+            color: "#fff",
+            fontWeight: "bold",
+            borderRadius: "8px",
+            margin: "70px 50px 0 0 ",
+            boxShadow: "0px 4px 6px rgba(0,0,0,0.1)",
+          },
+        });
+      }
     }
     reset();
   };
